@@ -1,0 +1,29 @@
+{
+  "name": "cg",
+  "version": "1.0.0",
+  "description": "A force directed algorithm to generate compact layouts",
+  "main": "cg.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "node cg.js"
+  },
+  "keywords": [
+    "Force-directed",
+    "crossing",
+    "free"
+  ],
+  "author": "Reyan Ahmed",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^7.3.0",
+    "d3-quadtree": "^3.0.1",
+    "mathjs": "^10.1.1",
+    "node-fetch": "^3.2.0",
+    "simulation": "^1.0.1",
+    "underscore": "^1.13.2",
+    "web-worker": "^1.2.0"
+  },
+  "type": "module"
+}
