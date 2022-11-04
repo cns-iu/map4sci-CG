@@ -10,8 +10,9 @@ import * as simulation from "simulation";
 import * as fs from 'fs'
 
 
+
 var onmessage = null;
-// //--------code----------
+//--------code----------
 const colorscheme = d3.schemeAccent;//schemePastel1
 const OPACITY_NOT_UPDATE = 0.1;
 const IS_PROGRESSIVE = true;
@@ -50,25 +51,27 @@ let fns = [
   'out.js',
 ];
 
-var my_data = null;
-fs.readFile("out.json", 'utf8' , (err2, data2) => {
-  if (err2) {
-    console.error(err2)
-    return
-  }
-  //console.log(data2)
-  eval(data2)
+// var my_data = null;
+// fs.readFile("out.json", 'utf8' , (err2, data2) => {
+//   if (err2) {
+//     console.error(err2)
+//     return
+//   }
+//   //console.log(data2)
+//   eval(data2)
 
-  fs.readFile('lib_node.js', 'utf8' , (err, data) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    //console.log(data)
-    eval(data)
-  })
+//   fs.readFile('lib_node.js', 'utf8' , (err, data) => {
+//     if (err) {
+//       console.error(err)
+//       return
+//     }
+//     //console.log(data)
+//     eval(data)
+//   })
 
 
-})
+// })
+
+
 
 
