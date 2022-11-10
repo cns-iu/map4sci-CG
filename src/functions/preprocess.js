@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import * as math from 'mathjs';
-import { window } from '../libNode.js';
+import { window } from '../cli.js';
 
 export function preprocess(data, nodes) {
   const IS_PROGRESSIVE = true;

@@ -1,1 +1,10 @@
-to run use 'node cg.js'
+# ZMLT Compactness-Guided Layout
+
+## Setup
+
+## Input Data
+
+## Running
+
+
+## Output Data

@@ -4,10 +4,10 @@ import { forcePre } from './forcePre.js';
 import { forceStress } from './forceStress.js';
 import { forceNodeEdgeRepulsion } from './forceNodeEdgeRepulsion.js';
 import { forcePost } from './forcePost.js';
-import { addNode } from '../libNode.js';
+import { addNode } from '../cli.js';
 import * as fs from 'fs';
 
-export function initSimulationWorker(simData) {
+export function initSimulationWorker(simData, outFile) {
   let t0 = new Date().getTime();
   let dataObj = simData;
   let nodes = dataObj.nodes;
@@ -88,6 +88,6 @@ export function initSimulationWorker(simData) {
 
   simulation.on('end', function () {
     let coordinates = JSON.stringify({ nodes: nodes });
-    fs.writeFileSync('CG_coordinates.json', coordinates);
+    fs.writeFileSync(outFile, coordinates);
   });
 }

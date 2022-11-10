@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "node cg.js"
+    "cg": "node src/cli.js examples/input.json output.json"
   },
   "keywords": [
     "Force-directed",
