@@ -2,10 +2,10 @@
 
 ## Setup
 
+Prerequisite: install node.js v16+
+
 ```bash
-nvm install node
-npm i d3
-npm i node-fetch
+npm ci
 ```
 
 ## Input Data
