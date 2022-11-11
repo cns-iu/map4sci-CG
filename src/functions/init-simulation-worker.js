@@ -1,13 +1,13 @@
 import { train } from './train.js';
 import * as d3 from 'd3';
-import { forcePre } from './forcePre.js';
-import { forceStress } from './forceStress.js';
-import { forceNodeEdgeRepulsion } from './forceNodeEdgeRepulsion.js';
-import { forcePost } from './forcePost.js';
-import { addNode } from '../cli.js';
+import { forcePre } from './force-pre.js';
+import { forceStress } from './force-stress.js';
+import { forceNodeEdgeRepulsion } from './force-node-edge-repulsion.js';
+import { forcePost } from './force-post.js';
+import { addNode } from './add-node.js';
 import * as fs from 'fs';
 
-export function initSimulationWorker(simData, outFile) {
+export  function initSimulationWorker(simData, outFile) {
   let t0 = new Date().getTime();
   let dataObj = simData;
   let nodes = dataObj.nodes;
@@ -74,7 +74,14 @@ export function initSimulationWorker(simData, outFile) {
   });
   let freq = 2;
   while (enabledNodes.size < nodes.length) {
-    addNode(nodes, edges, enabledNodes, virtualEdges, simulation, dataObj);
+    addNode(
+      nodes,
+      edges,
+      enabledNodes,
+      virtualEdges,
+      simulation,
+      dataObj,
+    );
     if (enabledNodes.size % freq == 0) {
       simulation
         .alpha(0.9)

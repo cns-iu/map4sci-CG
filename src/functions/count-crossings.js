@@ -1,4 +1,4 @@
-import { isCrossed } from './isCrossed.js';
+import { isCrossed } from './is-crossed.js';
 
 export function countCrossings(edges0, edges1) {
   //count crossings between all [edges0] and [edges1]

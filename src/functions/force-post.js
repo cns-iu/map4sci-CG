@@ -1,4 +1,4 @@
-import { countCrossings } from './countCrossings.js';
+import { countCrossings } from './count-crossings.js';
 export function forcePost(nodes, edges) {
   let forcePost_ = () => {
     for (let n of nodes) {

@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import { rotate } from './rotate.js';
-import { searchQuadtree } from './searchQuadtree.js';
+import { searchQuadtree } from './search-quadtree.js';
 
 export function forceNodeEdgeRepulsion(
   nodes0,

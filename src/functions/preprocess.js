@@ -1,9 +1,13 @@
 import * as d3 from 'd3';
 import * as math from 'mathjs';
-import { window } from '../cli.js';
 
-export function preprocess(data, nodes) {
+export function preprocess(data) {
   const IS_PROGRESSIVE = true;
+  let nodes
+  const window = {};
+  window.data = data;
+window.progress = IS_PROGRESSIVE ? 1 : data.nodes.length;
+window.enabledNodes = new Set(data.node_id.slice(0, window.progress));
 
   data.nodes = [];
   for (let i = 0; i < data.node_id.length; i++) {

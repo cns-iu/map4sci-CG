@@ -1,98 +1,21 @@
-import * as d3 from 'd3';
 import * as fs from 'fs';
-import { updateForce } from '../src/functions/updateForce.js';
-import { initNodePosition } from '../src/functions/initNodePosition.js';
-import { initScales } from '../src/functions/initScales.js';
-import { initSimulationWorker } from '../src/functions/initSimulationWorker.js';
 import { preprocess } from '../src/functions/preprocess.js';
-
-const IS_PROGRESSIVE = true;
-export const window = {};
+import { init } from './functions/init.js';
 
 if (process.argv.length !== 4) {
   console.error(`${process.argv[0]}: <input file> <output file>`);
   process.exit(-1);
 }
 
-const INPUT_FILE = JSON.parse(
-  fs.readFileSync(process.argv[2], { encoding: 'utf8', flag: 'r' })
-);
-const OUTPUT_FILE = process.argv[3];
+function main(inputFile, outputFile) {
+  const INPUT_FILE = JSON.parse(
+    fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
+  );
 
-export let nodes;
-export let progress = 0;
-
-window.data = INPUT_FILE;
-window.progress = IS_PROGRESSIVE ? 1 : INPUT_FILE.nodes.length;
-window.enabledNodes = new Set(INPUT_FILE.node_id.slice(0, window.progress));
-preprocess(INPUT_FILE, nodes);
-
-let maxLevel = d3.max(INPUT_FILE.nodes, (d) => d.level);
-INPUT_FILE.level2scale = {};
-INPUT_FILE.level2scale[maxLevel] = Math.sqrt(INPUT_FILE.nodes.length) / 4; //default
-
-function init(data, outputFile) {
-  const DPR = 2;
-
-  const nodes = data.nodes;
-  const edges = data.edges;
-
-  const width = 500;
-  const height = 500;
-  const scales = initScales(nodes, width, height);
-
-  const simData = {
-    nodes: nodes,
-    edges: edges,
-    virtualEdges: data.virtual_edges,
-    enabledNodes: window.enabledNodes,
-    id2index: data.id2index,
-    xDomain: scales.sx.domain(),
-    xRange: scales.sy.range(),
-    yDomain: scales.sy.domain(),
-    yRange: scales.sy.range(),
-    progress: window.progress,
-    dpr: DPR,
-    level2scale: data.level2scale,
-  };
-
-  initSimulationWorker(simData, outputFile);
+  //preprocessing the inputfile
+  preprocess(INPUT_FILE);
+  //passing the input and outputfile
+  init(INPUT_FILE, outputFile);
 }
 
-export function addNode(
-  nodes,
-  edges,
-  enabledNodes,
-  virtualEdges,
-  simulation,
-  dataObj
-) {
-  console.log(`${progress}/${nodes.length}`);
-  const start = progress;
-  progress += 1;
-  const root = nodes[0];
-  if (progress <= nodes.length) {
-    enabledNodes = initNodePosition(
-      nodes.slice(start, progress),
-      root,
-      enabledNodes,
-      nodes,
-      edges,
-      dataObj.id2index
-    );
-    //updateforce
-    updateForce(
-      nodes.slice(0, progress),
-      edges.filter((e) => e.source.update && e.target.update),
-      virtualEdges.filter((e) => e.source.update && e.target.update),
-      simulation,
-      dataObj
-    );
-  }
-  simulation.alpha(0.99);
-  return;
-}
-
-console.log(INPUT_FILE.level2scale);
-
-init(INPUT_FILE, OUTPUT_FILE);
+main(process.argv[2], process.argv[3]);

@@ -1,11 +1,11 @@
-import { countCrossings } from './countCrossings.js';
+import { countCrossings } from './count-crossings.js';
 export function initNodePosition(
   newNodes,
   root,
   currentNodes0,
   allNodes,
   allEdges,
-  id2index,
+  id2index
 ) {
   for (let node of newNodes) {
     node.update = true;
