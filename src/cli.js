@@ -34,14 +34,14 @@ INPUT_FILE.level2scale[maxLevel] = Math.sqrt(INPUT_FILE.nodes.length) / 4; //def
 function init(data, outputFile) {
   const DPR = 2;
 
-  let nodes = data.nodes;
-  let edges = data.edges;
+  const nodes = data.nodes;
+  const edges = data.edges;
 
-  let width = 500;
-  let height = 500;
-  let scales = initScales(nodes, width, height);
+  const width = 500;
+  const height = 500;
+  const scales = initScales(nodes, width, height);
 
-  let simData = {
+  const simData = {
     nodes: nodes,
     edges: edges,
     virtualEdges: data.virtual_edges,
@@ -68,9 +68,9 @@ export function addNode(
   dataObj
 ) {
   console.log(`${progress}/${nodes.length}`);
-  let start = progress;
+  const start = progress;
   progress += 1;
-  let root = nodes[0];
+  const root = nodes[0];
   if (progress <= nodes.length) {
     enabledNodes = initNodePosition(
       nodes.slice(start, progress),
