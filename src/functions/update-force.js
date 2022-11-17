@@ -1,4 +1,4 @@
-export function updateForce(nodes, edges, virtualEdges, simulation, dataObj) {
+export function updateForce(nodes, edges, virtualEdges, simulation) {
   simulation.force('charge').initialize(nodes);
   simulation.force('central').initialize(nodes);
 

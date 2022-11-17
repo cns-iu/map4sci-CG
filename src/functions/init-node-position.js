@@ -15,14 +15,14 @@ export function initNodePosition(
       continue;
     }
 
-    let currentEdges = allEdges.filter((e) => {
+    const currentEdges = allEdges.filter((e) => {
       return e.source.update && e.target.update;
     });
 
-    let parent = allNodes[id2index[node.parent]];
+    const parent = allNodes[id2index[node.parent]];
     let count = 1;
     let r = 1;
-    let edges1 = allEdges.filter(
+    const edges1 = allEdges.filter(
       (e) =>
         (currentNodes0.has(e.source.id) && node.id === e.target.id) ||
         (currentNodes0.has(e.target.id) && node.id === e.source.id)
@@ -34,11 +34,11 @@ export function initNodePosition(
         node.x = root.x + (Math.random() - 0.5) * r;
         node.y = root.y + (Math.random() - 0.5) * r;
       } else {
-        let dx = parent.x - root.x;
-        let dy = parent.y - root.y;
-        let l = Math.sqrt(dx * dx + dy * dy);
-        let cos = dx / l;
-        let sin = dy / l;
+        const dx = parent.x - root.x;
+        const dy = parent.y - root.y;
+        const l = Math.sqrt(dx * dx + dy * dy);
+        const cos = dx / l;
+        const sin = dy / l;
         node.x = parent.x + r * (node.weight * 2) * cos;
         node.y = parent.y + r * (node.weight * 2) * sin;
       }

@@ -3,7 +3,7 @@ import * as math from 'mathjs';
 
 export function preprocess(data) {
   const IS_PROGRESSIVE = true;
-  let nodes
+  let nodes;
   const window = {};
   window.data = data;
 window.progress = IS_PROGRESSIVE ? 1 : data.nodes.length;
@@ -38,8 +38,8 @@ window.enabledNodes = new Set(data.node_id.slice(0, window.progress));
     data.nodes = nodes;
   }
 
-  let cx = d3.mean(data.nodes, (d) => d.x);
-  let cy = d3.mean(data.nodes, (d) => d.y);
+  const cx = d3.mean(data.nodes, (d) => d.x);
+  const cy = d3.mean(data.nodes, (d) => d.y);
   for (let n of data.nodes) {
     n.x -= cx;
     n.y -= cy;
@@ -67,8 +67,8 @@ window.enabledNodes = new Set(data.node_id.slice(0, window.progress));
     }
   }
 
-  let prescale_pos = 1;
-  let prescale_weight = 1;
+  const prescale_pos = 1;
+  const prescale_weight = 1;
 
   data.id2index = {};
   data.nodes.forEach((d, i) => {

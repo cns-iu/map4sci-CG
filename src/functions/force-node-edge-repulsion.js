@@ -5,7 +5,6 @@ import { searchQuadtree } from './search-quadtree.js';
 export function forceNodeEdgeRepulsion(
   nodes0,
   edges0,
-  enabledNodes,
   strength0 = 1
 ) {
   let nodes = nodes0;

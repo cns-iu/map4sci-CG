@@ -10,11 +10,11 @@ import * as fs from 'fs';
 export  function initSimulationWorker(simData, outFile) {
   let t0 = new Date().getTime();
   let dataObj = simData;
-  let nodes = dataObj.nodes;
-  let edges = dataObj.edges;
-  let enabledNodes = dataObj.enabledNodes;
-  let virtualEdges = dataObj.virtualEdges;
-  let scales = {
+  const nodes = dataObj.nodes;
+  const edges = dataObj.edges;
+  const enabledNodes = dataObj.enabledNodes;
+  const virtualEdges = dataObj.virtualEdges;
+  const scales = {
     sx: d3.scaleLinear().domain(dataObj.xDomain).range(dataObj.xRange),
     sy: d3.scaleLinear().domain(dataObj.yDomain).range(dataObj.yRange),
   };
@@ -23,15 +23,15 @@ export  function initSimulationWorker(simData, outFile) {
   let maxEdgeWeight = null;
   [minEdgeWeight, maxEdgeWeight] = d3.extent(edges, (e) => e.weight);
   console.log([minEdgeWeight, maxEdgeWeight]);
-  let cx = d3.mean(nodes, (d) => d.x);
-  let cy = d3.mean(nodes, (d) => d.y);
+  const cx = d3.mean(nodes, (d) => d.x);
+  const cy = d3.mean(nodes, (d) => d.y);
 
   // def force
-  let simulation = d3
+  const simulation = d3
     .forceSimulation(nodes)
     .velocityDecay(0.4)
     .alphaDecay(1 - Math.pow(0.001, 1 / 500))
-    .force('pre', forcePre(scales))
+    .force('pre', forcePre())
     .force(
       'link',
       d3
@@ -62,7 +62,7 @@ export  function initSimulationWorker(simData, outFile) {
     )
     .force(
       'node-edge-repulsion',
-      forceNodeEdgeRepulsion(nodes, edges, enabledNodes, 0.1) //math-genealogy-linear
+      forceNodeEdgeRepulsion(nodes, edges, 0.1) //math-genealogy-linear
     )
     .stop();
 
@@ -72,7 +72,7 @@ export  function initSimulationWorker(simData, outFile) {
     let runtime = new Date().getTime() - t0; //in ms
     console.log(`runtime: ${(runtime * 100) / 100000} sec`);
   });
-  let freq = 2;
+  const freq = 2;
   while (enabledNodes.size < nodes.length) {
     addNode(
       nodes,

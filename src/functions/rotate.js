@@ -1,5 +1,5 @@
 export function rotate(p, cos, sin, center = { x: 0, y: 0 }) {
-  let res = {
+  const res = {
     x: p.x,
     y: p.y,
   };

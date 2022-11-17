@@ -12,9 +12,7 @@ function main(inputFile, outputFile) {
     fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
   );
 
-  //preprocessing the inputfile
   preprocess(INPUT_FILE);
-  //passing the input and outputfile
   init(INPUT_FILE, outputFile);
 }
 

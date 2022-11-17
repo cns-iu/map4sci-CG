@@ -1,4 +1,4 @@
-export function forcePre(scales, rotate = true) {
+export function forcePre( rotate = true) {
   let force = () => {
     if (rotate) {
       for (let n of force.nodes) {

@@ -28,8 +28,7 @@ export function addNode(
         nodes.slice(0, progress),
         edges.filter((e) => e.source.update && e.target.update),
         virtualEdges.filter((e) => e.source.update && e.target.update),
-        simulation,
-        dataObj
+        simulation
       );
     }
     simulation.alpha(0.99);
