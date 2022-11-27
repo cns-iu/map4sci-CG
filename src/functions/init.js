@@ -1,7 +1,7 @@
 import { initScales } from './init-scales.js';
 import { initSimulationWorker } from './init-simulation-worker.js';
 
-export function init(data, outputFile) {
+export async function init(data, outputFile) {
   const DPR = 2;
   const IS_PROGRESSIVE = true;
 
@@ -30,5 +30,7 @@ export function init(data, outputFile) {
     level2scale: data.level2scale,
   };
 
-  initSimulationWorker(simData, outputFile);
+const output = await initSimulationWorker(simData, outputFile);
+return output
+
 }

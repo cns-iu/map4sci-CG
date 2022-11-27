@@ -7,7 +7,7 @@ import { forcePost } from './force-post.js';
 import { addNode } from './add-node.js';
 import * as fs from 'fs';
 
-export  function initSimulationWorker(simData, outFile) {
+export async function initSimulationWorker(simData, outFile) {
   let t0 = new Date().getTime();
   let dataObj = simData;
   const nodes = dataObj.nodes;
@@ -74,14 +74,7 @@ export  function initSimulationWorker(simData, outFile) {
   });
   const freq = 2;
   while (enabledNodes.size < nodes.length) {
-    addNode(
-      nodes,
-      edges,
-      enabledNodes,
-      virtualEdges,
-      simulation,
-      dataObj,
-    );
+    addNode(nodes, edges, enabledNodes, virtualEdges, simulation, dataObj);
     if (enabledNodes.size % freq == 0) {
       simulation
         .alpha(0.9)
@@ -93,8 +86,21 @@ export  function initSimulationWorker(simData, outFile) {
   }
   train(10, simulation);
 
-  simulation.on('end', function () {
-    let coordinates = JSON.stringify({ nodes: nodes });
-    fs.writeFileSync(outFile, coordinates);
-  });
+  // simulation.on('end', function () {
+  //   let coordinates = JSON.stringify({ nodes: nodes });
+  //   fs.writeFileSync(outFile, coordinates);
+  // });
+  let coordinates = {};
+
+  async function myPromise() {
+    return new Promise((resolve) => {
+      simulation.on('end', () => {
+        coordinates[nodes] = nodes;
+        resolve(coordinates);
+      });
+    });
+  }
+  const data = await myPromise();
+  // console.log(data);
+  return data;
 }

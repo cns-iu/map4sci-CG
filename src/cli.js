@@ -7,13 +7,16 @@ if (process.argv.length !== 4) {
   process.exit(-1);
 }
 
-function main(inputFile, outputFile) {
+async function main(inputFile, outputFile) {
   const INPUT_FILE = JSON.parse(
     fs.readFileSync(inputFile, { encoding: 'utf8', flag: 'r' })
   );
 
   preprocess(INPUT_FILE);
-  init(INPUT_FILE, outputFile);
+  const coordinates = await init(INPUT_FILE, outputFile);
+  let newOutput = Object.values(coordinates)[0].map((c)=>`${c.x}\t${c.y}\t${c.id}`).join('\n')
+  console.log(newOutput)
+  return newOutput
 }
 
 main(process.argv[2], process.argv[3]);
