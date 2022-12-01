@@ -86,10 +86,7 @@ export async function initSimulationWorker(simData, outFile) {
   }
   train(10, simulation);
 
-  // simulation.on('end', function () {
-  //   let coordinates = JSON.stringify({ nodes: nodes });
-  //   fs.writeFileSync(outFile, coordinates);
-  // });
+
   let coordinates = {};
 
   async function myPromise() {
