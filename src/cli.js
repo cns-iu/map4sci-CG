@@ -14,9 +14,12 @@ async function main(inputFile, outputFile) {
 
   preprocess(INPUT_FILE);
   const coordinates = await init(INPUT_FILE, outputFile);
-  let newOutput = Object.values(coordinates)[0].map((c)=>`${c.x}\t${c.y}\t${c.id}`).join('\n')
-  console.log(newOutput)
-  return newOutput
+  let newOutput = Object.values(coordinates)[0]
+    .map((c) => `${c.x}\t${c.y}\t${c.id}`)
+    .join('\n');
+  fs.writeFileSync(outputFile, newOutput);
+  console.log(newOutput);
+  return newOutput;
 }
 
 main(process.argv[2], process.argv[3]);
