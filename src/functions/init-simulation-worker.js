@@ -89,7 +89,7 @@ export async function initSimulationWorker(simData, outFile) {
 
   let coordinates = {};
 
-  async function myPromise() {
+  async function promiseData() {
     return new Promise((resolve) => {
       simulation.on('end', () => {
         coordinates[nodes] = nodes;
@@ -97,7 +97,6 @@ export async function initSimulationWorker(simData, outFile) {
       });
     });
   }
-  const data = await myPromise();
-  // console.log(data);
+  const data = await promiseData();
   return data;
 }
