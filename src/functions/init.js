@@ -8,6 +8,7 @@ export async function init(data, outputFile) {
   const window = {};
   window.progress = IS_PROGRESSIVE ? 1 : data.nodes.length;
   window.enabledNodes = new Set(data.node_id.slice(0, window.progress));
+  // console.log(data.nodes)
   const nodes = data.nodes;
   const edges = data.edges;
 

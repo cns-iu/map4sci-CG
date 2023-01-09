@@ -7,7 +7,7 @@ import { forcePost } from './force-post.js';
 import { addNode } from './add-node.js';
 import * as fs from 'fs';
 
-export async function initSimulationWorker(simData, outFile) {
+export async function initSimulationWorker(simData) {
   let t0 = new Date().getTime();
   let dataObj = simData;
   const nodes = dataObj.nodes;
