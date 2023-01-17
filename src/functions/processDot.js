@@ -1,7 +1,5 @@
 import * as fs from 'fs';
-import * as graphology from 'graphology';
 import cytoscape from 'cytoscape';
-import { dijkstra, unweighted } from 'graphology-shortest-path';
 
 export function processDot(data) {
   let node_id = [];
@@ -32,7 +30,6 @@ export function processDot(data) {
   data[0].children
     .filter((e) => e.type === 'node_stmt')
     .map((node) => {
-      // console.log(node)
       node.attr_list.forEach((item) => {
         if (item.id === 'label') {
           node_label.push(item.eq);
@@ -80,15 +77,12 @@ export function processDot(data) {
     node_index.push(i);
   });
 
-  // const graph = new graphology.default.DirectedGraph();
-
   var cy = cytoscape({
     /* options */
   });
 
   //adding nodes
   node_id.forEach((node, i) => {
-    // graph.addNode(node, { index: i });
     cy.add({
       group: 'nodes',
       data: { weight: node_weight[i], id: node.toString() },
@@ -103,7 +97,6 @@ export function processDot(data) {
   });
 
   node_neighbors.forEach((edge, i) => {
-    // graph.addEdge(edge[0], edge[1], { weight: weights[i] });
     cy.add({
       group: 'edges',
       data: {
@@ -114,42 +107,17 @@ export function processDot(data) {
       },
     });
   });
-
-  const virtualEdges = [];
-
-  //graphology version
-  // node_id.forEach((source) => {
-  //   const weightedPaths = dijkstra.singleSource(graph, source, 'weight');
-  //   const hops = unweighted.singleSourceLength(graph, source);
-
-  //   Object.entries(weightedPaths).forEach(([target, path]) => {
-  //     let totalWeight = 0;
-  //     const totalHops = hops[target] || 0;
-  //     for (let j = 1; j < path.length; j++) {
-  //       const weight = graph.getEdgeAttribute(path[j - 1], path[j], 'weight');
-  //       totalWeight += weight;
-  //     }
-
-  //     if (totalWeight > 0 && totalHops > 0) {
-  //       virtualEdges.push({
-  //         source,
-  //         target: +target,
-  //         weight: totalWeight,
-  //         hops: totalHops,
-  //       });
-  //     }
-  //   });
-  // });
-
+  
   //cytoscape version
   const cytoscapeEdges = [];
   for (const source of node_id) {
+    //calculating weights from every node to all the other nodes
     const weightedPaths = cy
       .elements()
       .dijkstra(cy.$id(source.toString()), function (edge) {
         return edge.data('weight');
       });
-
+//calculating hops from every node to all the other node
     const hopsFunction = cy
       .elements()
       .dijkstra(cy.$id(source.toString()), function (edge) {
@@ -161,8 +129,6 @@ export function processDot(data) {
       let hops = hopsFunction.distanceTo(cy.$id(target.toString()))
 
       if (source !== target) {
-        // do stuff
-
         cytoscapeEdges.push({
           source,
           target: target,
