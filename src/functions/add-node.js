@@ -10,6 +10,8 @@ export function addNode(
     simulation,
     dataObj
   ) {
+    console.log("Adding Nodes")
+    // console.log(nodes)
     console.log(`${progress}/${nodes.length}`);
     const start = progress;
     progress += 1;

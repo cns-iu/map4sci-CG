@@ -15,14 +15,13 @@ async function main(inputFile, outputFile, network) {
   );
   const data = parse(fs.readFileSync(network, { encoding: 'utf8', flag: 'r' }));
   const convertedData = processDot(data);
-  preprocess(INPUT_FILE);
-  const coordinates = await init(INPUT_FILE, outputFile);
-  let newOutput = Object.values(coordinates)[0]
-    .map((c) => `${c.x}\t${c.y}\t${c.id}`)
-    .join('\n');
-  fs.writeFileSync(outputFile, newOutput);
-  // console.log(newOutput);
-  return newOutput;
+  preprocess(convertedData);
+  // const coordinates = await init(convertedData, outputFile);
+  // let newOutput = Object.values(coordinates)[0]
+  //   .map((c) => `${c.x}\t${c.y}\t${c.id}`)
+  //   .join('\n');
+  // fs.writeFileSync(outputFile, newOutput);
+  // return newOutput;
 }
 
 main(process.argv[2], process.argv[3], process.argv[4]);

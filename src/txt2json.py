@@ -435,7 +435,7 @@ bfs = nx.bfs_tree(g, root)
 node_order = list(bfs) 
 
 
-pos = pos0.copy()
+  = pos0.copy()
 # s = 3
 # pos = {k:list(np.array(v)*s) for k,v in pos.items()}
 

@@ -43,8 +43,10 @@ export function initNodePosition(
         node.y = parent.y + r * (node.weight * 2) * sin;
       }
       count += 1;
-    } while (countCrossings(currentEdges, edges1) > 0);
+    } while (countCrossings(currentEdges, edges1) > 0 && count < 1000);
     currentNodes0.add(node.id);
+
+    console.log(node.id, countCrossings(currentEdges, edges1));
   }
   return currentNodes0;
 }

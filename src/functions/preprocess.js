@@ -6,8 +6,8 @@ export function preprocess(data) {
   let nodes;
   const window = {};
   window.data = data;
-window.progress = IS_PROGRESSIVE ? 1 : data.nodes.length;
-window.enabledNodes = new Set(data.node_id.slice(0, window.progress));
+  window.progress = IS_PROGRESSIVE ? 1 : data.nodes.length;
+  window.enabledNodes = new Set(data.node_id.slice(0, window.progress));
 
   data.nodes = [];
   for (let i = 0; i < data.node_id.length; i++) {
@@ -108,4 +108,5 @@ window.enabledNodes = new Set(data.node_id.slice(0, window.progress));
       e.weight *= prescale_weight;
     }
   }
+  console.log('preprocess completed');
 }

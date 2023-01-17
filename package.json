@@ -17,10 +17,13 @@
   "author": "Reyan Ahmed",
   "license": "ISC",
   "dependencies": {
+    "cytoscape": "^3.23.0",
     "d3": "^7.6.1",
     "d3-force": "^3.0.0",
     "d3-quadtree": "^3.0.1",
     "dotparser": "^1.1.1",
+    "graphology": "^0.25.1",
+    "graphology-shortest-path": "^2.0.1",
     "mathjs": "^10.1.1",
     "node-fetch": "^3.2.0",
     "simulation": "^1.0.1",
