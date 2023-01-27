@@ -6,7 +6,7 @@ export function preprocess(data) {
   let nodes;
   const window = {};
   window.data = data;
-  window.progress = IS_PROGRESSIVE ? 1 : data.nodes.length;
+  window.progress = IS_PROGRESSIVE ? 1 : data.node_id.length;
   window.enabledNodes = new Set(data.node_id.slice(0, window.progress));
 
   data.nodes = [];

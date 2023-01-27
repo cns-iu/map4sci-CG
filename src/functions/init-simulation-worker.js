@@ -5,7 +5,6 @@ import { forceStress } from './force-stress.js';
 import { forceNodeEdgeRepulsion } from './force-node-edge-repulsion.js';
 import { forcePost } from './force-post.js';
 import { addNode } from './add-node.js';
-import * as fs from 'fs';
 
 export async function initSimulationWorker(simData) {
   let t0 = new Date().getTime();
@@ -86,14 +85,10 @@ export async function initSimulationWorker(simData) {
   }
   train(10, simulation);
 
-
-  let coordinates = {};
-
   async function promiseData() {
     return new Promise((resolve) => {
       simulation.on('end', () => {
-        coordinates[nodes] = nodes;
-        resolve(coordinates);
+        resolve(nodes);
       });
     });
   }

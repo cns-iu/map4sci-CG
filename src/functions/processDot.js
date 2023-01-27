@@ -1,7 +1,8 @@
 import * as fs from 'fs';
-import cytoscape from 'cytoscape';
+import { cytoscapeLayout } from './cytoscape-layout.js';
 
-export function processDot(data) {
+export async function processDot(data) {
+  console.log("Processing Dot FIle\n")
   let node_id = [];
   let edge_source = [];
   let node_weight = [];
@@ -13,6 +14,7 @@ export function processDot(data) {
   let edge_weight = [];
 
   const node_perplexity_Object = {};
+
   data[0].children
     .filter((e) => e.type === 'edge_stmt')
     .map((edge) => {
@@ -30,13 +32,23 @@ export function processDot(data) {
   data[0].children
     .filter((e) => e.type === 'node_stmt')
     .map((node) => {
+      let foundPos = false;
       node.attr_list.forEach((item) => {
         if (item.id === 'label') {
           node_label.push(item.eq);
         } else if (item.id === 'weight') {
           node_weight.push(parseFloat(item.eq));
+        } else if (item.id === 'pos') {
+          const [x, y] = item.eq.split(',').map(parseFloat);
+          node_x.push(x);
+          node_y.push(y);
+          foundPos = true;
         }
       });
+      if (!foundPos) {
+        node_x.push(Math.random() * 1000);
+        node_y.push(Math.random() * 1000);
+      }
       node_id.push(node.node_id.id);
     });
 
@@ -56,11 +68,6 @@ export function processDot(data) {
       edge_weight.push(parseFloat(edgeWeight));
     });
 
-  node_id.forEach(() => {
-    node_x.push(Math.random() * (10000 + 10000) - 10000);
-    node_y.push(Math.random() * (10000 + 10000) - 10000);
-  });
-
   //creating node_parent
   const node_parent = [];
   node_neighbors.forEach((pairs, i) => {
@@ -77,81 +84,12 @@ export function processDot(data) {
     node_index.push(i);
   });
 
-  var cy = cytoscape({
-    /* options */
-  });
-
-  //adding nodes
-  node_id.forEach((node, i) => {
-    cy.add({
-      group: 'nodes',
-      data: { weight: node_weight[i], id: node.toString() },
-      position: { x: node_x[i], y: node_y[i] },
-    });
-  });
-
-  //adding edges
-  const weights = {};
-  edge_weight.forEach((edgeWeight, i) => {
-    weights[i] = parseFloat(edgeWeight);
-  });
-
-  node_neighbors.forEach((edge, i) => {
-    cy.add({
-      group: 'edges',
-      data: {
-        id: `${edge[0]}-${edge[1]}`.toString(),
-        source: edge[0],
-        target: edge[1],
-        weight: edge_weight[i],
-      },
-    });
-  });
-  
-  //cytoscape version
-  const cytoscapeEdges = [];
-  for (const source of node_id) {
-    //calculating weights from every node to all the other nodes
-    const weightedPaths = cy
-      .elements()
-      .dijkstra(cy.$id(source.toString()), function (edge) {
-        return edge.data('weight');
-      });
-//calculating hops from every node to all the other node
-    const hopsFunction = cy
-      .elements()
-      .dijkstra(cy.$id(source.toString()), function (edge) {
-        return 1;
-      });
-
-    for (const target of node_id) {
-      let weight = weightedPaths.distanceTo(cy.$id(target.toString()));
-      let hops = hopsFunction.distanceTo(cy.$id(target.toString()))
-
-      if (source !== target) {
-        cytoscapeEdges.push({
-          source,
-          target: target,
-          weight: weight,
-          hops: hops,
-        });
-      }
-    }
-  }
-
   const virtual_edge_source = [];
   const virtual_edge_target = [];
   const virtual_edge_weight = [];
   const virtual_edge_hops = [];
 
-  cytoscapeEdges.forEach((edge) => {
-    virtual_edge_source.push(edge.source);
-    virtual_edge_target.push(edge.target);
-    virtual_edge_weight.push(edge.weight);
-    virtual_edge_hops.push(edge.hops);
-  });
-
-  let experimentData = `./examples/experimentData.json`;
+  const experimentData = `./examples/experimentData.json`;
   const collectiveData = {};
   collectiveData.node_id = node_id;
   collectiveData.node_index = node_index;
@@ -165,10 +103,50 @@ export function processDot(data) {
   collectiveData.edge_target = edge_target;
   collectiveData.edge_weight = edge_weight;
   collectiveData.node_perplexity = node_perplexity;
+ 
+  const cy = await cytoscapeLayout(collectiveData)
+
+  const cytoscapeEdges = [];
+  for (const source of node_id) {
+    //calculating weights from every node to all the other nodes
+    const weightedPaths = cy
+      .elements()
+      .dijkstra(cy.$id(source.toString()), function (edge) {
+        return edge.data('weight');
+      });
+    //calculating hops from every node to all the other node
+    const hopsFunction = cy
+      .elements()
+      .dijkstra(cy.$id(source.toString()), function (edge) {
+        return 1;
+      });
+
+    for (const target of node_id) {
+      let weight = weightedPaths.distanceTo(cy.$id(target.toString()));
+      let hops = hopsFunction.distanceTo(cy.$id(target.toString()));
+
+      if (source !== target) {
+        cytoscapeEdges.push({
+          source,
+          target: target,
+          weight: weight,
+          hops: hops,
+        });
+      }
+    }
+  }
+  cytoscapeEdges.forEach((edge) => {
+    virtual_edge_source.push(edge.source);
+    virtual_edge_target.push(edge.target);
+    virtual_edge_weight.push(edge.weight);
+    virtual_edge_hops.push(edge.hops);
+  });
+
   collectiveData.virtual_edge_source = virtual_edge_source;
   collectiveData.virtual_edge_target = virtual_edge_target;
   collectiveData.virtual_edge_weight = virtual_edge_weight;
   collectiveData.virtual_edge_hops = virtual_edge_hops;
+
 
   //writing the processed data into a file
   fs.writeFileSync(
@@ -179,5 +157,5 @@ export function processDot(data) {
     }
   );
 
-  return collectiveData;
+  return { collectiveData, cy };
 }

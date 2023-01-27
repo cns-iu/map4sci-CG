@@ -23,7 +23,7 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 plt.style.use('seaborn-colorblind')
-from IPython.display import clear_output
+# from IPython.display import clear_output
 
 nodePattern = re.compile('^(\d+) ')
 edgePattern = re.compile('^(\d+) -- (\d+)')
@@ -435,7 +435,7 @@ bfs = nx.bfs_tree(g, root)
 node_order = list(bfs) 
 
 
-  = pos0.copy()
+pos0.copy()
 # s = 3
 # pos = {k:list(np.array(v)*s) for k,v in pos.items()}
 
