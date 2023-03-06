@@ -1,5 +1,5 @@
 {
-  "name": "cg",
+  "name": "@map4sci-cg",
   "version": "1.0.0",
   "description": "A force directed algorithm to generate compact layouts",
   "main": "cg.js",
@@ -17,6 +17,8 @@
   "author": "Reyan Ahmed",
   "license": "ISC",
   "dependencies": {
+    "big-json": "^3.2.0",
+    "csv-parser": "^3.0.0",
     "cytoscape": "^3.23.0",
     "cytoscape-dagre": "^2.5.0",
     "cytoscape-euler": "^1.2.2",
@@ -27,9 +29,13 @@
     "dotparser": "^1.1.1",
     "graphology": "^0.25.1",
     "graphology-shortest-path": "^2.0.1",
+    "loadash": "^1.0.0",
+    "lodash.merge": "^4.6.2",
     "mathjs": "^10.1.1",
-    "node-fetch": "^3.2.0",
+    "node-fetch": "^3.3.0",
+    "papaparse": "^5.4.0",
     "simulation": "^1.0.1",
+    "split2": "^4.1.0",
     "underscore": "^1.13.2",
     "web-worker": "^1.2.0"
   },

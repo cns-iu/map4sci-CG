@@ -6,6 +6,7 @@ from natsort import natsorted
 from glob import glob
 from pathlib import Path
 import os, sys
+import csv
 
 import math
 from random import random, shuffle, choice
@@ -135,11 +136,14 @@ def edges2graph(lines, i2k=None, label2i=None):
             source, target = edge
             nodes.update([source, target])
             edges.add( (source, target) )
+    print(nodes)
     
     if label2i is None:
         label2i = {k:i for i,k in enumerate(nodes)}
         i2k = list(range(len(nodes)))
     g = nx.Graph()
+
+    print(label2i)
     
     nodes = [dict(id=label2i[k], label=k) for i,k in enumerate(nodes)]
     ids = [n['id'] for n in nodes]
@@ -278,13 +282,10 @@ def neighbor_order(nodeId, parentId, neighbors, pos):
 
 
 
-
-
-
-
 if len(sys.argv)>=2:
     dir_in = sys.argv[1]
 else:
+    # dir_in = './data/txt/lastfm_small'
     dir_in = './data/txt/lastfm_small'
 fns = natsorted(glob(f'{dir_in}/*.txt'))
 levels = list(range(1, len(fns)+1))
@@ -525,5 +526,13 @@ print(f'writing {fn_out}...')
 # with open(fn_out+'.json', 'w') as f:
 with open(fn_out, 'w') as f:
     json.dump(res, f, indent=2)
+    # json.dump(res,f,separators=(',', ':'))
+
+print('creating csv file')
+
+csvFile = sys.argv[3]
+
+
 
 print('done!')
+# %%
