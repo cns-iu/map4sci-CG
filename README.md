@@ -25,3 +25,10 @@ npm run cg
 ```
 Outputs graph coordinates to form a network
 ```
+
+## Additional Tips
+
+```
+for large data include NODE_OPTIONS="--max-old-space-size=8192
+
+```

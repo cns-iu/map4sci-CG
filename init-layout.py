@@ -36,6 +36,7 @@ def processAttrs(line):
                 pass
     return attrs
 
+
 def processEdge(line):
     finding = edgePattern.findall(line)[0]
     source, target = finding[:2]
@@ -43,10 +44,12 @@ def processEdge(line):
     attrs = processAttrs(line)
     return dict(attrs, source=source, target=target)
 
+
 def processNode(line):
     nodeId = int(line.split(' ')[0])
     nodeAttrs = processAttrs(line)
     return dict(nodeAttrs, id=nodeId)
+
 
 def edges2graph(lines, i2k=None, label2i=None):
     pattern = re.compile('"(.+)" -- "(.+)"')
@@ -71,6 +74,7 @@ def edges2graph(lines, i2k=None, label2i=None):
     edges = [(i2k[label2i[e[0]]], i2k[label2i[e[1]]]) for e in edges]
     g.add_edges_from(edges)
     return g, i2k, label2i
+
 
 def fan(nodes,
         origin=[0, 0], radii=[],
@@ -167,7 +171,7 @@ def radial_layout(g, root=None, mode='center', origin=[0, 0], phase0=0, range0=n
                     neighbors,
                     mode=mode,
                     origin=origin, radii=[
-                        depth for e in edge_lengths],  
+                        depth for e in edge_lengths],
                     phaseCenter=phases[root],
                     phaseRange=ranges[root],
                     weights=weights,
@@ -340,31 +344,19 @@ for k in edges[0]:
 
 print(fn_out)
 
-# for k in virtual_edges[0]:
-#     res[f'virtual_edge_{k}'] = [ve[k] for ve in virtual_edges]
-
-virt={}
-
 for k in virtual_edges[0]:
-    virt[f'virtual_edge_{k}'] = [ve[k] for ve in virtual_edges]
+    res[f'virtual_edge_{k}'] = [ve[k] for ve in virtual_edges]
 
 print(f'writing {fn_out}...')
 
 dirname = './examples/splitInput'
 
+# csvFile = sys.argv[3]
+with open(fn_out, 'w', newline='') as file:
+    writer = csv.writer(file)
 
-
-for i in virt.keys():
-    filename = f'{dirname}/{i}.json'
-    temp = {i: virt[i]}
-    with open(filename, 'w') as f:
-        json.dump(temp, f, indent=2)
-
-with open(f'{dirname}/res.json', 'w') as f:
-    json.dump(res, f, indent=2)
-
-# with open(fn_out, 'w') as f:
-#     json.dump(res, f, indent=2)
-
+    for key in res.keys():
+        for value in res[key]:
+            writer.writerow([key, value])
 
 print('done!')
