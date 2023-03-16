@@ -11,44 +11,7 @@ import math
 from random import random, shuffle
 import networkx as nx
 import numpy as np
-
-
 from tqdm import tqdm
-
-nodePattern = re.compile('^(\d+) ')
-edgePattern = re.compile('^(\d+) -- (\d+)')
-attrsPattern = re.compile('\[(.+)\]')
-
-
-def processAttrs(line):
-    attrs = attrsPattern.findall(line)
-    if len(attrs) > 0:
-        attrs = attrs[0].split(',')
-    attrs = [a.split('=') for a in attrs]
-    attrs = [[a[0].strip(), a[1].replace('"', '').strip()] for a in attrs]
-    for a in attrs:
-        try:
-            a[1] = int(a[1])
-        except ValueError:
-            try:
-                a[1] = float(a[1])
-            except:
-                pass
-    return attrs
-
-
-def processEdge(line):
-    finding = edgePattern.findall(line)[0]
-    source, target = finding[:2]
-    source, target = int(source), int(target)
-    attrs = processAttrs(line)
-    return dict(attrs, source=source, target=target)
-
-
-def processNode(line):
-    nodeId = int(line.split(' ')[0])
-    nodeAttrs = processAttrs(line)
-    return dict(nodeAttrs, id=nodeId)
 
 
 def edges2graph(lines, i2k=None, label2i=None):
@@ -184,16 +147,6 @@ def radial_layout(g, root=None, mode='center', origin=[0, 0], phase0=0, range0=n
     return pos
 
 
-def rotate(pos0, theta=0):
-    cos = math.cos(theta)
-    sin = math.sin(theta)
-    pos = {}
-    for k in pos0:
-        p = pos0[k]
-        pos[k] = (p[0]*cos-p[1]*sin, p[0]*sin+p[1]*cos)
-    return pos
-
-
 def neighbor_order(nodeId, parentId, neighbors, pos):
     v = np.array([pos[i] for i in neighbors]) - np.array([pos[nodeId]])
     a = np.angle(v[:, 0] + 1j * v[:, 1])
@@ -209,6 +162,7 @@ else:
     dir_in = './data/txt/lastfm_small'
 fns = natsorted(glob(f'{dir_in}/*.txt'))
 levels = list(range(1, len(fns)+1))
+# print(f'level - {levels}')
 maxLevel = max(*levels)
 
 if len(sys.argv) >= 3:
@@ -221,6 +175,8 @@ dir_out = fn_out.parent
 baseWeight = 200
 increment = 50
 weights = [baseWeight+(maxLevel-l)*increment for l in levels]
+
+
 weights = [w/200 for w in weights]
 
 list(zip(fns, levels, weights))
@@ -233,6 +189,7 @@ for i, (fn, level, weight) in list(enumerate(zip(fns, levels, weights)))[::-1]:
         else:
             subgraph, _, _ = edges2graph(f.readlines(), i2k, label2i)
         nodeCount = len(subgraph)
+        # print(f'nodecount-{nodeCount}')
         print(fn, level, nodeCount, weight)
 
         for n in subgraph.nodes:
@@ -243,11 +200,16 @@ for i, (fn, level, weight) in list(enumerate(zip(fns, levels, weights)))[::-1]:
 
 print('all_pairs_shortest_path...')
 apsp = nx.all_pairs_dijkstra_path_length(g, weight='weight')
+
 d = np.zeros([len(g.nodes), len(g.nodes)])
 for dk in tqdm(apsp):
     source = dk[0]
+    # print(source)
     target_dist = dk[1]
+
     d[source, :] = [target_dist[i] for i in range(len(g.nodes))]
+
+# print(d)
 
 
 print('k-hop all_pairs_shortest_path...')
