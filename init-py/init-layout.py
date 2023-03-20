@@ -12,7 +12,9 @@ from random import random, shuffle
 import networkx as nx
 import numpy as np
 from tqdm import tqdm
+from createTxt import *
 
+# eg: command python3 init-py/init-layout.py examples/batchtree/last-fm.dot examples/textFile/ examples/csv/last-fm.csv
 
 def edges2graph(lines, i2k=None, label2i=None):
     pattern = re.compile('"(.+)" -- "(.+)"')
@@ -63,30 +65,11 @@ def fan(nodes,
                 nr2.append(nr[i])
             else:
                 nr2.insert(0, nr[i])
-    elif mode == 'polar':
-        # polarize heavy sub trees
-        nr2 = []
-        for i in range(len(nr)):
-            if i % 2 == 0:
-                nr2.append(nr[i])
-            else:
-                nr2.insert(0, nr[i])
     elif mode == 'random':
         shuffle(nr)
         nr2 = nr
-    elif mode == 'interleave':
-        a = nr[::2]
-        b = nr[1::2][::-1]
-        if len(a) == len(b):
-            nr2 = sum(zip(a, b), tuple())
-        else:
-            nr2 = sum(zip(a, b+[-1,]), tuple())[:-1]
-
-    elif mode == 'ordered':
-        nr2 = nr
 
     nodes, weights, radii = zip(*nr2)
-
     weightCumSum = [sum(weights[:i]) for i in range(len(weights)+1)]
     for i in range(n):
         angle_offset = (weightCumSum[i]+weightCumSum[i+1])/2 * phaseRange
@@ -106,6 +89,7 @@ def radial_layout(g, root=None, mode='center', origin=[0, 0], phase0=0, range0=n
     phases = {}
     ranges = {}
     depth_from_root = nx.shortest_path_length(g, root)
+   
     if root is None:
         root = next(iter(g.nodes))
     pos[root] = origin
@@ -116,19 +100,21 @@ def radial_layout(g, root=None, mode='center', origin=[0, 0], phase0=0, range0=n
     while len(pos) < len(g.nodes):
         newRoots = []
         for root in roots:
-            if mode == 'ordered':
-                neighbors = [n for n in g0.nodes[root]
-                             ['neighbor_order'] if n not in pos]
-            else:
-                neighbors = [n for n in g.neighbors(root) if n not in pos]
+            neighbors = [n for n in g.neighbors(root) if n not in pos]
             if len(neighbors) > 0:
                 edge_lengths = [g0.edges[(root, n)]['weight']
                                 for n in neighbors]
                 subTreeSizes = [len(nx.bfs_tree(g, i).nodes)
                                 for i in neighbors]
+               
+             
                 degrees = [g.degree[i] for i in neighbors]
+               
                 depths = [depth_from_root[i] for i in neighbors]
+
                 weights = [z for x, y, z in zip(degrees, depths, subTreeSizes)]
+               
+        
                 newRoots += neighbors
                 newPos, newPhases, newRanges = fan(
                     neighbors,
@@ -147,26 +133,19 @@ def radial_layout(g, root=None, mode='center', origin=[0, 0], phase0=0, range0=n
     return pos
 
 
-def neighbor_order(nodeId, parentId, neighbors, pos):
-    v = np.array([pos[i] for i in neighbors]) - np.array([pos[nodeId]])
-    a = np.angle(v[:, 0] + 1j * v[:, 1])
-    order = [neighbors[o] for o in np.argsort(a)]
-    if parentId is not None:
-        order = np.roll(order, -order.index(parentId))
-    return order
-
-
 if len(sys.argv) >= 2:
-    dir_in = sys.argv[1]
-else:
-    dir_in = './data/txt/lastfm_small'
+    dir_in = sys.argv[2]
+    
+dotfile = sys.argv[1]
+
+createTxt(dotfile, dir_in)
+
 fns = natsorted(glob(f'{dir_in}/*.txt'))
 levels = list(range(1, len(fns)+1))
-# print(f'level - {levels}')
 maxLevel = max(*levels)
 
 if len(sys.argv) >= 3:
-    fn_out = Path(sys.argv[2])
+    fn_out = Path(sys.argv[3])
 else:
     fn_out = Path('out.json')
 dir_out = fn_out.parent
@@ -189,7 +168,6 @@ for i, (fn, level, weight) in list(enumerate(zip(fns, levels, weights)))[::-1]:
         else:
             subgraph, _, _ = edges2graph(f.readlines(), i2k, label2i)
         nodeCount = len(subgraph)
-        # print(f'nodecount-{nodeCount}')
         print(fn, level, nodeCount, weight)
 
         for n in subgraph.nodes:
@@ -204,13 +182,8 @@ apsp = nx.all_pairs_dijkstra_path_length(g, weight='weight')
 d = np.zeros([len(g.nodes), len(g.nodes)])
 for dk in tqdm(apsp):
     source = dk[0]
-    # print(source)
     target_dist = dk[1]
-
     d[source, :] = [target_dist[i] for i in range(len(g.nodes))]
-
-# print(d)
-
 
 print('k-hop all_pairs_shortest_path...')
 apsp = nx.all_pairs_dijkstra_path_length(g, weight=1)
@@ -221,9 +194,7 @@ for dk in tqdm(apsp):
     hops[source, :] = [target_dist[i] for i in range(len(g.nodes))]
 
 fn = fns[-1]
-
 init_layout = 'radial'
-
 t0 = time()
 
 if init_layout == 'radial':
@@ -238,7 +209,6 @@ bfs = nx.bfs_tree(g, root)
 # bfs ordering
 node_order = list(bfs)
 pos = pos0.copy()
-
 
 if not Path(dir_out).exists():
     os.makedirs(Path(dir_out))
@@ -311,9 +281,6 @@ for k in virtual_edges[0]:
 
 print(f'writing {fn_out}...')
 
-dirname = './examples/splitInput'
-
-# csvFile = sys.argv[3]
 with open(fn_out, 'w', newline='') as file:
     writer = csv.writer(file)
 
