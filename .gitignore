@@ -27,6 +27,7 @@ coverage
 examples/batchtree/
 examples/csv
 examples/textFile/
+examples/output.tsv
 
 # Python files
 *.pyc
