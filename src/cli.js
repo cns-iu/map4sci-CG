@@ -12,12 +12,19 @@ import JSONStream from 'JSONStream';
 import merge from 'lodash.merge';
 import json from 'big-json';
 import path from 'path';
+import { readCSVFile } from './functions/read-csvFIle.js';
 
 if (process.argv.length !== 4) {
   console.error(`${process.argv[0]}: <input file> <output file>`);
   process.exit(-1);
 }
 
+/**
+ * 
+ * @param {Network file csv format} network 
+ * @param {output file .tsv format} outputFile 
+ * @returns 
+ */
 async function main(network, outputFile) {
   console.log('Reading FIle');
   const INPUT_FILE = await readCSVFile(network);
@@ -45,39 +52,5 @@ async function main(network, outputFile) {
 
 main(process.argv[2], process.argv[3]);
 
-async function readCSVFile(filePath) {
-  // Create a readline interface for reading the file line by line
-  const rl = readline.createInterface({
-    input: fs.createReadStream(filePath),
-    crlfDelay: Infinity,
-  });
 
-  // Promise to resolve when all data points have been read
-  const data = {};
-
-  // Event listener for each line read
-  rl.on('line', (line) => {
-    // Process the data point
-    // console.log(line)
-    const [key, value] = line.split(',');
-    if (key in data) {
-      data[key].push(value);
-    } else {
-      data[key] = [value];
-    }
-
-  });
-
-  // Promise to resolve when end of file is reached
-  const endOfFile = new Promise((resolve) => {
-    rl.on('close', () => {
-      resolve();
-    });
-  });
-
-  // Wait for end of file and return all data points
-  await endOfFile;
-  console.log(data);
-  return data;
-}
 
