@@ -20,10 +20,10 @@ if (process.argv.length !== 4) {
 }
 
 /**
- * 
- * @param {Network file csv format} network 
- * @param {output file .tsv format} outputFile 
- * @returns 
+ *
+ * @param {Network file csv format} network
+ * @param {output file .tsv format} outputFile
+ * @returns
  */
 async function main(network, outputFile) {
   console.log('Reading FIle');
@@ -34,11 +34,10 @@ async function main(network, outputFile) {
   preprocess(INPUT_FILE);
   const nodes = await init(INPUT_FILE, outputFile);
 
-
   let newOutput = nodes.map((c) => `${c.x}\t${c.y}\t${c.id}`).join('\n');
   fs.writeFileSync(outputFile, newOutput);
 
-    // update cy with new coordinates
+  // update cy with new coordinates
   for (const { x, y, id } of nodes) {
     cy.$id(id.toString()).position({ x, y });
   }
@@ -51,6 +50,3 @@ async function main(network, outputFile) {
 }
 
 main(process.argv[2], process.argv[3]);
-
-
-
