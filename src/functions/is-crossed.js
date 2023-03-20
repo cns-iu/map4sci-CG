@@ -1,5 +1,12 @@
 import { signOf } from './sign-of.js';
 
+/**
+ * function to determine if edges cross
+ * @param {Edge 0} e0 
+ * @param {Edge 1} e1 
+ * @returns 
+ */
+
 export function isCrossed(e0, e1) {
   const p0 = e0.source;
   const p1 = e0.target;

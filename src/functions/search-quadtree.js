@@ -1,3 +1,16 @@
+/**
+ * 
+ * @param {*} quadtree 
+ * @param {*} xGetter 
+ * @param {*} yGetter 
+ * @param {*} xmin 
+ * @param {*} xmax 
+ * @param {*} ymin 
+ * @param {*} ymax 
+ * @returns 
+ */
+
+
 export function searchQuadtree(
   quadtree,
   xGetter,

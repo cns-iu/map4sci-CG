@@ -1,6 +1,13 @@
 import * as d3 from 'd3';
-
 import { getCanvasScales } from './get-canvas-scales.js';
+
+/**
+ * Function to initialize scales
+ * @param {Nodes} nodes 
+ * @param {Width} w 
+ * @param {Height} h 
+ * @returns 
+ */
 export function initScales(nodes, w, h) {
   const DPR = 2;
   const FONT = 'Times';

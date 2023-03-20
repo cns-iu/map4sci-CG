@@ -1,5 +1,12 @@
 import { isCrossed } from './is-crossed.js';
 
+/**
+ * FUnction to count crossings
+ * @param {*} edges0 
+ * @param {*} edges1 
+ * @returns number of crossings
+ */
+
 export function countCrossings(edges0, edges1) {
   //count crossings between all [edges0] and [edges1]
   let count = 0;

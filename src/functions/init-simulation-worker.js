@@ -6,6 +6,13 @@ import { forceNodeEdgeRepulsion } from './force-node-edge-repulsion.js';
 import { forcePost } from './force-post.js';
 import { addNode } from './add-node.js';
 
+
+/**
+ * 
+ * @param {SImulation Data} simData 
+ * @returns 
+ */
+
 export async function initSimulationWorker(simData) {
   let t0 = new Date().getTime();
   let dataObj = simData;

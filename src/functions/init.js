@@ -1,6 +1,13 @@
 import { initScales } from './init-scales.js';
 import { initSimulationWorker } from './init-simulation-worker.js';
 
+/**
+ * 
+ * @param {data} data 
+ * @param {Outfile to write out the new coordinates} outputFile 
+ * @returns new coordinates
+ */
+
 export async function init(data, outputFile) {
   const DPR = 2;
   const IS_PROGRESSIVE = true;

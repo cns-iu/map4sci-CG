@@ -1,5 +1,15 @@
 import * as d3 from 'd3';
 
+/**
+ * FUnction to get canvas scales
+ * @param {*} xExtent 
+ * @param {*} yExtent 
+ * @param {*} width 
+ * @param {*} height 
+ * @param {*} prescaling 
+ * @returns 
+ */
+
 export function getCanvasScales(
   xExtent,
   yExtent,

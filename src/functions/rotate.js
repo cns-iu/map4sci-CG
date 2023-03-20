@@ -1,3 +1,16 @@
+
+
+
+/**
+ * 
+ * @param {position} p 
+ * @param {cosine} cos 
+ * @param {sine} sin 
+ * @param {center} center 
+ * @returns  result after roate
+ */
+
+
 export function rotate(p, cos, sin, center = { x: 0, y: 0 }) {
   const res = {
     x: p.x,

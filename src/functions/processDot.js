@@ -1,6 +1,12 @@
 import * as fs from 'fs';
 import { cytoscapeLayout } from './cytoscape-layout.js';
 
+/**
+ * Function to process Dot file
+ * @param {Data to be processed} data 
+ * @returns 
+ */
+
 export async function processDot(data) {
   console.log("Processing Dot FIle\n")
   let node_id = [];

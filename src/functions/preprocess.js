@@ -1,6 +1,12 @@
 import * as d3 from 'd3';
 import * as math from 'mathjs';
 
+
+/**
+ * 
+ * @param {Daata to be preprocessed(json format)} data 
+ */
+
 export function preprocess(data) {
   const IS_PROGRESSIVE = true;
   let nodes;

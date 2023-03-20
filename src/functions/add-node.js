@@ -2,6 +2,17 @@ import { initNodePosition } from './init-node-position.js';
 import { updateForce } from './update-force.js';
 
 let progress = 0;
+
+/**
+ * FUnction to add nodes
+ * @param {*} nodes 
+ * @param {*} edges 
+ * @param {*} enabledNodes 
+ * @param {*} virtualEdges 
+ * @param {*} simulation 
+ * @param {*} dataObj 
+ * @returns 
+ */
 export function addNode(
   nodes,
   edges,

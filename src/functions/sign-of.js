@@ -1,3 +1,11 @@
+/**
+ * 
+ * @param {Position} p 
+ * @param {Line 0} l0 
+ * @param {Line 1} l1 
+ * @returns The sign
+ */
+
 export function signOf(p, l0, l1) {
   const a = l0.y - l1.y;
   const b = -(l0.x - l1.x);

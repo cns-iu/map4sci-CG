@@ -1,3 +1,12 @@
+/**
+ * Function to update nodes
+ * @param {Nodes} nodes 
+ * @param {Edges} edges 
+ * @param {Virtual Edges} virtualEdges 
+ * @param {Simiualtion} simulation 
+ */
+
+
 export function updateForce(nodes, edges, virtualEdges, simulation) {
   console.log("Updating force")
   simulation.force('charge').initialize(nodes);

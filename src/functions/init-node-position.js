@@ -1,4 +1,17 @@
 import { countCrossings } from './count-crossings.js';
+
+
+/**
+ * Function to initialize node positions
+ * @param {New Nodes} newNodes 
+ * @param {*} root 
+ * @param {*} currentNodes0 
+ * @param {*} allNodes 
+ * @param {*} allEdges 
+ * @param {*} id2index 
+ * @returns 
+ */
+
 export function initNodePosition(
   newNodes,
   root,
