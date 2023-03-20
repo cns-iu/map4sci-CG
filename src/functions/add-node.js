@@ -25,8 +25,6 @@ export function addNode(
   console.log(`${progress}/${nodes.length}`);
   const start = progress;
   progress += 1;
-  // const maxWeight = Math.max(...nodes.map((n) => n.weight));
-  // const root = nodes.find((n) => n.weight === maxWeight);
   const root = nodes[0]
   if (progress <= nodes.length) {
     enabledNodes = initNodePosition(
