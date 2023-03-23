@@ -11,10 +11,9 @@ npm ci
 
 ```
 argument-1 inputfile: dot formated file which is the network
-argument-2 Text Direct: directory to store the created text files
-argument-3 outputfile: json file which will be the input for the Algorithm
+argument-2 outputfile: csv file which will be the input for the Algorithm
 
-eg: python3 init-py/init-layout.py examples/batchtree/last-fm.dot examples/textFile/ examples/csv/last-fm.csv
+eg: python3 src/initialization/initialize-layout.py inputFile(.dot)  outputFIle(.csv)
 ```
 
 ## Input Data
@@ -26,7 +25,7 @@ The csv file generated from initialization will be the input
 ## Running
 
 ```
-npm run cg inputfile outputfile.tsv
+npm run cg inputfile(.csv) outputfile(.tsv)
 ```
 
 ## Output Data
