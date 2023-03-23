@@ -1,17 +1,7 @@
 import * as fs from 'fs';
-import parse from 'dotparser';
 import { preprocess } from '../src/functions/preprocess.js';
 import { init } from './functions/init.js';
-import { processDot } from './functions/processDot.js';
 import { cytoscapeLayout } from './functions/cytoscape-layout.js';
-import * as readline from 'node:readline';
-import split from 'split2';
-import csv from 'csv-parser';
-import fetch from 'node-fetch';
-import JSONStream from 'JSONStream';
-import merge from 'lodash.merge';
-import json from 'big-json';
-import path from 'path';
 import { readCSVFile } from './functions/read-csvFIle.js';
 
 if (process.argv.length !== 4) {

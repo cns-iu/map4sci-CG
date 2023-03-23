@@ -12,7 +12,6 @@ from random import random, shuffle
 import networkx as nx
 import numpy as np
 from tqdm import tqdm
-# from createEdgeData import *
 from networkx.drawing.nx_agraph import read_dot as nx_read_dot
 
 
