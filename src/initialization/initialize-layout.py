@@ -21,6 +21,7 @@ from networkx.drawing.nx_agraph import read_dot as nx_read_dot
 
 dotfile = sys.argv[1]
 
+
 def createEdgeData(dotfile):
     G = nx_read_dot(dotfile)
     edges = {}
@@ -39,6 +40,7 @@ def createEdgeData(dotfile):
             prev = int(level)-1
             finalEdges[level] += edges[str(prev)]
     return finalEdges
+
 
 def edges2graph(edgeList, i2k=None, label2i=None):
     nodes = set()
@@ -151,12 +153,12 @@ def radial_layout(g, root=None, mode='center', origin=[0, 0], phase0=0, range0=n
         depth += 1
     return pos
 
+
 edgeData = createEdgeData(dotfile)
 
 levels = list(range(1, len(edgeData.keys())+1))
-print(levels)
 maxLevel = max(*levels)
-print(maxLevel)
+print("Maximum Level is",maxLevel)
 
 fn_out = Path(sys.argv[2])
 
@@ -171,14 +173,13 @@ weights = [baseWeight+(maxLevel-l)*increment for l in levels]
 weights = [w/200 for w in weights]
 
 for i, (edgeList, level, weight) in list(enumerate(zip(edgeData.values(), levels, weights)))[::-1]:
- 
+
     if level == maxLevel:
         subgraph, i2k, label2i = edges2graph(edgeList)
         g = subgraph
     else:
         subgraph, _, _ = edges2graph(edgeList, i2k, label2i)
     nodeCount = len(subgraph)
-    print(level, nodeCount, weight)
 
     for n in subgraph.nodes:
         g.nodes[n]['weight'] = weight
@@ -188,7 +189,6 @@ for i, (edgeList, level, weight) in list(enumerate(zip(edgeData.values(), levels
 
 
 print('all_pairs_shortest_path...')
-
 
 
 apsp = nx.all_pairs_dijkstra_path_length(g, weight='weight')
