@@ -2,7 +2,7 @@ import { initNodePosition } from './init-node-position.js';
 import { updateForce } from './update-force.js';
 
 let progress = 0;
-
+let lastProgress = -1;
 /**
  * FUnction to add nodes
  * @param {*} nodes 
@@ -21,8 +21,15 @@ export function addNode(
   simulation,
   dataObj
 ) {
-  console.log('Adding Nodes');
-  console.log(`${progress}/${nodes.length}`);
+ 
+let myCount = Math.floor((progress/nodes.length)*100)
+
+ if(myCount!==lastProgress && myCount % 5==0){
+  console.log(`Adding Nodes progress: ${myCount}%`,new Date())
+  lastProgress = myCount
+
+ }
+  // console.log(`${progress}/${nodes.length}`);
   const start = progress;
   progress += 1;
   const root = nodes[0]

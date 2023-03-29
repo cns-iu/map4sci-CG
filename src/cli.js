@@ -16,7 +16,7 @@ if (process.argv.length !== 4) {
  * @returns
  */
 async function main(network, outputFile) {
-  console.log('Reading FIle');
+  console.log('Reading File');
   const INPUT_FILE = await readCSVFile(network);
   console.log('Finished reading files');
 

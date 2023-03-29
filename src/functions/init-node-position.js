@@ -59,7 +59,7 @@ export function initNodePosition(
       count += 1;
     } 
     currentNodes0.add(node.id);
-    console.log(node.id, countCrossings(currentEdges, edges1));
+  
   }
   return currentNodes0;
 }

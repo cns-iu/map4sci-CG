@@ -8,7 +8,6 @@
 
 
 export function updateForce(nodes, edges, virtualEdges, simulation) {
-  console.log("Updating force")
   simulation.force('charge').initialize(nodes);
   simulation.force('central').initialize(nodes);
 
