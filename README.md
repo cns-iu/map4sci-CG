@@ -6,7 +6,9 @@ Prerequisite: install node.js v16+√
 
 ```bash
 npm ci
+npm run fix-jiggle
 ```
+
 ## Initialization
 
 ```
@@ -19,7 +21,7 @@ eg: python3 src/initialization/initialize-layout.py inputFile(.dot)  outputFIle(
 ## Input Data
 
 ```
-The csv file generated from initialization will be the input 
+The csv file generated from initialization will be the input
 ```
 
 ## Running
