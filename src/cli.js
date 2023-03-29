@@ -34,7 +34,7 @@ async function main(network, outputFile) {
 
   // write cy graph to outputFile .. .cyjs
   const networkContent = cy.json();
-  fs.writeFileSync('examples/test-input.cyjs', JSON.stringify(networkContent, null, 2));
+  // fs.writeFileSync('examples/test-input.cyjs', JSON.stringify(networkContent, null, 2));
 
   return newOutput;
 }
