@@ -24,9 +24,11 @@ async function main(network, outputFile) {
   preprocess(INPUT_FILE);
   const nodes = await init(INPUT_FILE, outputFile);
 
-  let newOutput = nodes.map((c) => `${c.x}\t${c.y}\t${c.id}`).join('\n');
+  let newOutput = nodes.map((c) => `${c.x}\t${c.y}\t${INPUT_FILE.label2i[c.id]}`).join('\n');
   fs.writeFileSync(outputFile, newOutput);
 
+
+  // console.log(INPUT_FILE.label2i)
   // update cy with new coordinates
   for (const { x, y, id } of nodes) {
     cy.$id(id.toString()).position({ x, y });
