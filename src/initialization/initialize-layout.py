@@ -295,8 +295,6 @@ for k in virtual_edges[0]:
 
 print(f'writing {fn_out}...')
 
-print(label2i)
-
 res["label2i"] = label2i
 
 with open(fn_out, 'w', newline='') as file:
