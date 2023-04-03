@@ -281,10 +281,12 @@ for i in tqdm(range(len(nodes))):
                 # virtual_edges.append(e)
                 with open(fn_out, mode='a', newline='') as file:
                     writer = csv.writer(file)
-                    writer.writerow(["virtual_edge_source", e["source"]])
-                    writer.writerow(["virtual_edge_target", e["target"]])
-                    writer.writerow(["virtual_edge_weight", e["weight"]])
-                    writer.writerow(["virtual_edge_hops", e["hops"]])
+                    writer.writerows([
+                        ["virtual_edge_source", e["source"]],
+                        ["virtual_edge_target", e["target"]],
+                        ["virtual_edge_weight", e["weight"]],
+                        ["virtual_edge_hops", e["hops"]]
+                    ])
             else:
                 continue
 

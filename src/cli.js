@@ -29,6 +29,7 @@ async function main(network, outputFile) {
     .join('\n');
   fs.writeFileSync(outputFile, newOutput);
 
+  
   // update cy with new coordinates
   for (const { x, y, id } of nodes) {
     cy.$id(id.toString()).position({ x, y });
