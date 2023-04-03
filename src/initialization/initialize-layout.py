@@ -157,7 +157,7 @@ edgeData = createEdgeData(dotfile)
 
 levels = list(range(1, len(edgeData.keys())+1))
 maxLevel = max(*levels)
-print("Maximum Level is",maxLevel)
+print("Maximum Level is", maxLevel)
 
 fn_out = Path(sys.argv[2])
 
@@ -278,7 +278,13 @@ for i in tqdm(range(len(nodes))):
                     'weight': dij,
                     'hops': hops[i, j]
                 }
-                virtual_edges.append(e)
+                # virtual_edges.append(e)
+                with open(fn_out, mode='a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(["virtual_edge_source", e["source"]])
+                    writer.writerow(["virtual_edge_target", e["target"]])
+                    writer.writerow(["virtual_edge_weight", e["weight"]])
+                    writer.writerow(["virtual_edge_hops", e["hops"]])
             else:
                 continue
 
@@ -290,14 +296,14 @@ for k in edges[0]:
 
 print(fn_out)
 
-for k in virtual_edges[0]:
-    res[f'virtual_edge_{k}'] = [ve[k] for ve in virtual_edges]
+# for k in virtual_edges[0]:
+#     res[f'virtual_edge_{k}'] = [ve[k] for ve in virtual_edges]
 
 print(f'writing {fn_out}...')
 
 res["label2i"] = label2i
 
-with open(fn_out, 'w', newline='') as file:
+with open(fn_out, mode='a', newline='') as file:
     writer = csv.writer(file)
 
     for key in res.keys():
