@@ -265,21 +265,45 @@ for i, node in enumerate(nodes):
 
 hopThresh = 6
 virtual_edges = []
-for i in tqdm(range(len(nodes))):
-    for j in range(i+1, len(nodes)):
-        if d[i, j] == 0:
-            print(f'[warning] d[{i},{j}] = 0')
-        else:
-            if hops[i, j] < hopThresh or random() < 1:
-                dij = d[i, j]
-                e = {
-                    'source': i2k[i],
-                    'target': i2k[j],
-                    'weight': dij,
-                    'hops': hops[i, j]
-                }
-                # virtual_edges.append(e)
-                with open(fn_out, mode='a', newline='') as file:
+# for i in tqdm(range(len(nodes))):
+#     for j in range(i+1, len(nodes)):
+#         if d[i, j] == 0:
+#             print(f'[warning] d[{i},{j}] = 0')
+#         else:
+#             if hops[i, j] < hopThresh or random() < 1:
+#                 dij = d[i, j]
+#                 e = {
+#                     'source': i2k[i],
+#                     'target': i2k[j],
+#                     'weight': dij,
+#                     'hops': hops[i, j]
+#                 }
+#                 # virtual_edges.append(e)
+#                 with open(fn_out, mode='a', newline='') as file:
+#                     writer = csv.writer(file)
+#                     writer.writerows([
+#                         ["virtual_edge_source", e["source"]],
+#                         ["virtual_edge_target", e["target"]],
+#                         ["virtual_edge_weight", e["weight"]],
+#                         ["virtual_edge_hops", e["hops"]]
+#                     ])
+#             else:
+#                 continue
+
+with open(fn_out, mode='a', buffering=4096, newline='') as file:
+    for i in tqdm(range(len(nodes))):
+        for j in range(i+1, len(nodes)):
+            if d[i, j] == 0:
+                print(f'[warning] d[{i},{j}] = 0')
+            else:
+                if hops[i, j] < hopThresh or random() < 1:
+                    dij = d[i, j]
+                    e = {
+                        'source': i2k[i],
+                        'target': i2k[j],
+                        'weight': dij,
+                        'hops': hops[i, j]
+                    }
                     writer = csv.writer(file)
                     writer.writerows([
                         ["virtual_edge_source", e["source"]],
@@ -287,8 +311,9 @@ for i in tqdm(range(len(nodes))):
                         ["virtual_edge_weight", e["weight"]],
                         ["virtual_edge_hops", e["hops"]]
                     ])
-            else:
-                continue
+                else:
+                    continue
+
 
 res = {}
 for k in nodes[0]:
