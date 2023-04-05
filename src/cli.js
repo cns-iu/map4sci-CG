@@ -17,27 +17,32 @@ if (process.argv.length !== 4) {
  */
 async function main(network, outputFile) {
   console.log('Reading File');
-  const INPUT_FILE = await readCSVFile(network);
+  const data = await readCSVFile(network);
   console.log('Finished reading files');
 
-  const cy = await cytoscapeLayout(INPUT_FILE);
-  preprocess(INPUT_FILE);
-  const nodes = await init(INPUT_FILE, outputFile);
+  preprocess(data);
+  const nodes = await init(data, outputFile);
 
   let newOutput = nodes
-    .map((c) => `${c.x}\t${c.y}\t${INPUT_FILE.label2i[c.id]}`)
+    .map((c) => `${c.x}\t${c.y}\t${data.label2i[c.id]}`)
     .join('\n');
   fs.writeFileSync(outputFile, newOutput);
 
-  
-  // update cy with new coordinates
-  for (const { x, y, id } of nodes) {
-    cy.$id(id.toString()).position({ x, y });
-  }
+  if (nodes.length < 1000) {
+    const cy = await cytoscapeLayout(data);
 
-  // write cy graph to outputFile .. .cyjs
-  const networkContent = cy.json();
-  // fs.writeFileSync('examples/test-input.cyjs', JSON.stringify(networkContent, null, 2));
+    // update cy with new coordinates
+    for (const { x, y, id } of nodes) {
+      cy.$id(id.toString()).position({ x, y });
+    }
+
+    // write cy graph to outputFile .. .cyjs
+    const networkContent = cy.json();
+    fs.writeFileSync(
+      outputFile + '.cyjs',
+      JSON.stringify(networkContent, null, 2)
+    );
+  }
 
   return newOutput;
 }
