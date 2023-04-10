@@ -78,16 +78,9 @@ export async function initSimulationWorker(simData) {
     console.log(`runtime: ${(runtime * 100) / 100000} sec`);
   });
   const freq = 2;
-  while (window.enabledNodes.size < nodes.length) {
-    addNode(
-      nodes,
-      edges,
-      window.enabledNodes,
-      virtualEdges,
-      simulation,
-      dataObj
-    );
-    if (window.enabledNodes.size % freq == 0) {
+  while (enabledNodes.size < nodes.length) {
+    addNode(nodes, edges, enabledNodes, virtualEdges, simulation, dataObj);
+    if (enabledNodes.size % freq == 0) {
       simulation
         .alpha(0.9)
         .velocityDecay(0.4)

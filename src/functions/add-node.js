@@ -32,10 +32,10 @@ export function addNode(
   progress += 1;
   const root = nodes[0];
   if (progress <= nodes.length) {
-    window.enabledNodes = initNodePosition(
+    enabledNodes = initNodePosition(
       nodes.slice(start, progress),
       root,
-      window.enabledNodes,
+      enabledNodes,
       nodes,
       edges,
       dataObj.id2index
