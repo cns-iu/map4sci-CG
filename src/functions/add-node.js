@@ -5,13 +5,13 @@ let progress = 0;
 let lastProgress = -1;
 /**
  * FUnction to add nodes
- * @param {*} nodes 
- * @param {*} edges 
- * @param {*} enabledNodes 
- * @param {*} virtualEdges 
- * @param {*} simulation 
- * @param {*} dataObj 
- * @returns 
+ * @param {*} nodes
+ * @param {*} edges
+ * @param {*} enabledNodes
+ * @param {*} virtualEdges
+ * @param {*} simulation
+ * @param {*} dataObj
+ * @returns
  */
 export function addNode(
   nodes,
@@ -21,18 +21,16 @@ export function addNode(
   simulation,
   dataObj
 ) {
- 
-let myCount = Math.floor((progress/nodes.length)*100)
+  let myCount = Math.floor((progress / nodes.length) * 100);
 
- if(myCount!==lastProgress && myCount % 5==0){
-  console.log(`Adding Nodes progress: ${myCount}%`,new Date())
-  lastProgress = myCount
-
- }
+  if (myCount !== lastProgress && myCount % 5 == 0) {
+    console.log(`Adding Nodes progress: ${myCount}%`, new Date());
+    lastProgress = myCount;
+  }
   // console.log(`${progress}/${nodes.length}`);
   const start = progress;
   progress += 1;
-  const root = nodes[0]
+  const root = nodes[0];
   if (progress <= nodes.length) {
     enabledNodes = initNodePosition(
       nodes.slice(start, progress),
