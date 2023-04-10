@@ -6,11 +6,10 @@ import { forceNodeEdgeRepulsion } from './force-node-edge-repulsion.js';
 import { forcePost } from './force-post.js';
 import { addNode } from './add-node.js';
 
-
 /**
- * 
- * @param {SImulation Data} simData 
- * @returns 
+ *
+ * @param {SImulation Data} simData
+ * @returns
  */
 
 export async function initSimulationWorker(simData) {
@@ -79,9 +78,16 @@ export async function initSimulationWorker(simData) {
     console.log(`runtime: ${(runtime * 100) / 100000} sec`);
   });
   const freq = 2;
-  while (enabledNodes.size < nodes.length) {
-    addNode(nodes, edges, enabledNodes, virtualEdges, simulation, dataObj);
-    if (enabledNodes.size % freq == 0) {
+  while (window.enabledNodes.size < nodes.length) {
+    addNode(
+      nodes,
+      edges,
+      window.enabledNodes,
+      virtualEdges,
+      simulation,
+      dataObj
+    );
+    if (window.enabledNodes.size % freq == 0) {
       simulation
         .alpha(0.9)
         .velocityDecay(0.4)
