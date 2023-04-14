@@ -11,12 +11,7 @@ import math
 from random import random, shuffle
 import networkx as nx
 import numpy as np
-from tqdm import tqdm
 from networkx.drawing.nx_agraph import read_dot as nx_read_dot
-
-
-# eg: command python3 init-py/init-layout.py examples/batchtree/last-fm.dot examples/csv/last-fm.csv
-
 
 dotfile = sys.argv[1]
 
@@ -194,7 +189,7 @@ apsp = nx.all_pairs_dijkstra_path_length(g, weight='weight')
 
 d = np.zeros([len(g.nodes), len(g.nodes)])
 
-for dk in tqdm(apsp):
+for dk in apsp:
     source = dk[0]
     target_dist = dk[1]
     d[source, :] = [target_dist[i] for i in range(len(g.nodes))]
@@ -203,7 +198,7 @@ for dk in tqdm(apsp):
 print('k-hop all_pairs_shortest_path...')
 apsp = nx.all_pairs_dijkstra_path_length(g, weight=1)
 hops = np.zeros([len(g.nodes), len(g.nodes)])
-for dk in tqdm(apsp):
+for dk in apsp:
     source = dk[0]
     target_dist = dk[1]
     hops[source, :] = [target_dist[i] for i in range(len(g.nodes))]
@@ -265,33 +260,9 @@ for i, node in enumerate(nodes):
 
 hopThresh = 6
 virtual_edges = []
-# for i in tqdm(range(len(nodes))):
-#     for j in range(i+1, len(nodes)):
-#         if d[i, j] == 0:
-#             print(f'[warning] d[{i},{j}] = 0')
-#         else:
-#             if hops[i, j] < hopThresh or random() < 1:
-#                 dij = d[i, j]
-#                 e = {
-#                     'source': i2k[i],
-#                     'target': i2k[j],
-#                     'weight': dij,
-#                     'hops': hops[i, j]
-#                 }
-#                 # virtual_edges.append(e)
-#                 with open(fn_out, mode='a', newline='') as file:
-#                     writer = csv.writer(file)
-#                     writer.writerows([
-#                         ["virtual_edge_source", e["source"]],
-#                         ["virtual_edge_target", e["target"]],
-#                         ["virtual_edge_weight", e["weight"]],
-#                         ["virtual_edge_hops", e["hops"]]
-#                     ])
-#             else:
-#                 continue
 
 with open(fn_out, mode='a', buffering=4096, newline='') as file:
-    for i in tqdm(range(len(nodes))):
+    for i in range(len(nodes)):
         for j in range(i+1, len(nodes)):
             if d[i, j] == 0:
                 print(f'[warning] d[{i},{j}] = 0')
@@ -322,9 +293,6 @@ for k in edges[0]:
     res[f'edge_{k}'] = [e[k] for e in edges]
 
 print(fn_out)
-
-# for k in virtual_edges[0]:
-#     res[f'virtual_edge_{k}'] = [ve[k] for ve in virtual_edges]
 
 print(f'writing {fn_out}...')
 
