@@ -24,7 +24,7 @@ export function readCSVFile(filePath) {
     Object.entries(histogram).map(([key, size]) => [key, new Array(size)])
   );
   for (const [key, value] of readCSVLines(filePath)) {
-    data[key][pointer++] = Number(value);
+    data[key][pointer[key]++] = Number(value);
   }
 
   return data;
