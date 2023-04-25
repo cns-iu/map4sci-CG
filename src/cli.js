@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { preprocess } from '../src/functions/preprocess.js';
 import { init } from './functions/init.js';
 import { cytoscapeLayout } from './functions/cytoscape-layout.js';
-import { readCSVFile } from './functions/read-csvFIle.js';
+import { readCSVFile } from './functions/read-csv.js';
 
 if (process.argv.length !== 4) {
   console.error(`${process.argv[0]}: <input file> <output file>`);
@@ -17,7 +17,7 @@ if (process.argv.length !== 4) {
  */
 async function main(network, outputFile) {
   console.log('Reading File');
-  const data = await readCSVFile(network);
+  const data = readCSVFile(network);
   console.log('Finished reading files');
 
   preprocess(data);
