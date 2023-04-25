@@ -267,7 +267,7 @@ with open(fn_out, mode='a', buffering=4096, newline='') as file:
             if d[i, j] == 0:
                 print(f'[warning] d[{i},{j}] = 0')
             else:
-                if hops[i, j] < hopThresh or random() < 1:
+                if hops[i, j] < hopThresh:
                     dij = d[i, j]
                     e = {
                         'source': i2k[i],

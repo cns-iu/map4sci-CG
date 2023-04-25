@@ -1,5 +1,12 @@
 import { fromFile } from 'gen-readlines';
 
+/**
+ * Read a simple csv file line by line as a generator. 
+ * Yields an array of strings for each line
+ * 
+ * @param {string} filePath path to the csv file
+ * @param {string} separator the separator to split each line by
+ */
 export function* readCSVLines(filePath, separator = ',') {
   for (const line of fromFile(filePath, { bufferSize: 128 * 1024 * 1024 })) {
     yield line.toString().split(separator);
@@ -9,23 +16,16 @@ export function* readCSVLines(filePath, separator = ',') {
 /**
  *
  * @param {path to the file} filePath
- * @returns data in json format
+ * @returns parsed data from the csv file
  */
 export function readCSVFile(filePath) {
-  const histogram = {};
-  for (const [key, _value] of readCSVLines(filePath)) {
-    histogram[key] = (histogram[key] ?? 0) + 1;
-  }
-
-  const pointer = Object.fromEntries(
-    Object.keys(histogram).map((key) => [key, 0])
-  );
-  const data = Object.fromEntries(
-    Object.entries(histogram).map(([key, size]) => [key, new Array(size)])
-  );
+  const data = {};
   for (const [key, value] of readCSVLines(filePath)) {
-    data[key][pointer[key]++] = Number(value);
+    if (data.hasOwnProperty(key)) {
+      data[key].push(value);
+    } else {
+      data[key] = [ value ];
+    }
   }
-
   return data;
 }
